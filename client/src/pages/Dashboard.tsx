@@ -9,6 +9,8 @@ interface DashboardStats {
   maintenanceHours: number;
   dieselUsage: number;
   securityAlerts: number;
+  productionRate: number;
+  equipmentStatus: number;
 }
 
 export default function Dashboard() {

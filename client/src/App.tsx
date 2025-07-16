@@ -5,11 +5,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
+import Context from "@/pages/Context";
 import Dashboard from "@/pages/Dashboard";
 import Production from "@/pages/Production";
 import Maintenance from "@/pages/Maintenance";
 import Security from "@/pages/Security";
 import SiteMap from "@/pages/SiteMap";
+import Features from "@/pages/Features";
 import Performance from "@/pages/Performance";
 import Notifications from "@/pages/Notifications";
 import NotFound from "@/pages/not-found";
@@ -19,11 +21,13 @@ function Router() {
     <Layout>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/context" component={Context} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/production" component={Production} />
         <Route path="/maintenance" component={Maintenance} />
         <Route path="/security" component={Security} />
         <Route path="/map" component={SiteMap} />
+        <Route path="/features" component={Features} />
         <Route path="/performance" component={Performance} />
         <Route path="/notifications" component={Notifications} />
         <Route component={NotFound} />

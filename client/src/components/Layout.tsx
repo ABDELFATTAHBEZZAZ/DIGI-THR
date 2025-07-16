@@ -14,7 +14,9 @@ import {
   Bell, 
   Menu, 
   User,
-  Clock
+  Clock,
+  Info,
+  Layers
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -25,22 +27,26 @@ interface LayoutProps {
 
 const navigation = [
   { name: "Accueil", href: "/", icon: Home },
+  { name: "Contexte", href: "/context", icon: Info },
   { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
   { name: "Production", href: "/production", icon: Factory },
   { name: "Maintenance", href: "/maintenance", icon: Settings },
   { name: "Sécurité", href: "/security", icon: Shield },
   { name: "Carte du Chantier", href: "/map", icon: Map },
+  { name: "Fonctionnalités", href: "/features", icon: Layers },
   { name: "Performance", href: "/performance", icon: TrendingUp },
   { name: "Notifications", href: "/notifications", icon: Bell },
 ];
 
 const pageInfo = {
-  "/": { title: "Accueil", subtitle: "Bienvenue sur DIGI OFFICE" },
+  "/": { title: "Accueil", subtitle: "DIGI THR - Supervision intelligente des travaux à haut risque" },
+  "/context": { title: "Contexte", subtitle: "Mine de Sidi Chennane - Problématique et solution" },
   "/dashboard": { title: "Dashboard", subtitle: "Supervision en temps réel des opérations" },
   "/production": { title: "Production", subtitle: "Gestion des activités de production" },
   "/maintenance": { title: "Maintenance", subtitle: "Planification et suivi des interventions" },
   "/security": { title: "Sécurité", subtitle: "Supervision des risques et alertes" },
   "/map": { title: "Carte du Chantier", subtitle: "Vue interactive des zones de travail" },
+  "/features": { title: "Fonctionnalités", subtitle: "Capacités et modules du système DIGI THR" },
   "/performance": { title: "Performance", subtitle: "Suivi des temps et performances" },
   "/notifications": { title: "Notifications", subtitle: "Alertes et messages système" },
 };
@@ -93,7 +99,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center justify-center h-16 px-4 bg-ocp-blue">
-        <h1 className="text-xl font-bold text-white">DIGI OFFICE</h1>
+        <h1 className="text-xl font-bold text-white">DIGI THR</h1>
       </div>
 
       {/* Navigation */}

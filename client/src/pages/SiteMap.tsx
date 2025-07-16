@@ -72,11 +72,19 @@ export default function SiteMap() {
   };
 
   const handleZoneClick = (zone: Zone) => {
-    toast({
-      title: `${zone.name} - ${zone.status}`,
-      description: `Vous avez cliqué sur la ${zone.name} (Statut: ${zone.status})`,
-      variant: zone.status === "Alerte" ? "destructive" : "default",
-    });
+    if (zone.status === "Alerte") {
+      toast({
+        title: "⚠️ Zone à haut risque détectée",
+        description: `Zone ${zone.name}: Intervention requise immédiatement!`,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: `Zone ${zone.name}`,
+        description: `Statut: ${zone.status} - Supervision active`,
+        variant: zone.status === "Maintenance" ? "default" : "default",
+      });
+    }
   };
 
   return (

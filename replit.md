@@ -1,8 +1,8 @@
-# DIGI OFFICE - Construction Site Management System
+# DIGI THR - Construction Site Management System
 
 ## Overview
 
-DIGI OFFICE is a comprehensive web application designed for managing and supervising high-risk construction sites for OCP (Office Chérifien des Phosphates). The system provides real-time monitoring, production tracking, maintenance scheduling, security alerts, and performance analytics through an intuitive dashboard interface.
+DIGI THR (Travaux à Haut Risque) is a comprehensive web application designed for managing and supervising high-risk construction sites for OCP's Sidi Chennane mine. The system provides real-time monitoring, production tracking, maintenance scheduling, security alerts, and performance analytics through an intuitive dashboard interface. The application has been professionally upgraded to reflect the specific needs of the Sidi Chennane mining operation.
 
 ## User Preferences
 
@@ -42,14 +42,16 @@ Preferred communication style: Simple, everyday language.
 ## Key Components
 
 ### Core Pages
-1. **Home** (`/`) - Landing page with system overview
-2. **Dashboard** (`/dashboard`) - Real-time KPI monitoring with auto-refresh
-3. **Production** (`/production`) - Production activity management
-4. **Maintenance** (`/maintenance`) - Maintenance scheduling and tracking
-5. **Security** (`/security`) - Security alerts and incident management
-6. **Site Map** (`/map`) - Interactive site zone visualization
-7. **Performance** (`/performance`) - Employee and machine performance metrics
-8. **Notifications** (`/notifications`) - System notifications and alerts
+1. **Home** (`/`) - Landing page with DIGI THR overview and Mine de Sidi Chennane context
+2. **Context** (`/context`) - Detailed presentation of mine challenges and DIGI THR solution
+3. **Dashboard** (`/dashboard`) - Real-time KPI monitoring with auto-refresh
+4. **Production** (`/production`) - Production activity management
+5. **Maintenance** (`/maintenance`) - Maintenance scheduling and tracking
+6. **Security** (`/security`) - Security alerts and incident management
+7. **Site Map** (`/map`) - Interactive site zone visualization with clickable risk zones
+8. **Features** (`/features`) - Comprehensive feature overview with interactive demos
+9. **Performance** (`/performance`) - Employee and machine performance metrics
+10. **Notifications** (`/notifications`) - System notifications and alerts
 
 ### Database Schema
 - **Users**: Authentication and user management
@@ -123,4 +125,26 @@ Preferred communication style: Simple, everyday language.
 - **Performance**: Optimized queries and component rendering
 - **Scalability**: Modular architecture supporting feature expansion
 
-The application uses modern development practices with TypeScript for type safety, comprehensive error handling, and a clean separation of concerns between frontend and backend code.
+## Recent Improvements (January 2025)
+
+### Professional Upgrade to DIGI THR
+- **Rebranding**: Updated from DIGI OFFICE to DIGI THR (Travaux à Haut Risque)
+- **Mine Context**: Added specific context for Sidi Chennane mine with detailed problem analysis
+- **Enhanced Navigation**: Added Context and Features pages for better presentation
+- **Interactive Features**: Enhanced site map with clickable risk zones and improved alert system
+- **Demo Capabilities**: Added comprehensive feature testing panel for professional demonstrations
+
+### New Features Added
+- **Context Page**: Detailed mine presentation with problem/solution analysis
+- **Features Page**: Comprehensive feature overview with interactive demos and testing
+- **Enhanced Home Page**: Professional presentation with clear CTA button
+- **Improved Site Map**: Clickable zones with proper risk alert system
+- **Manual Alert System**: Added ability to trigger alerts manually for testing
+
+### Technical Improvements
+- **Enhanced Navigation**: 10 core pages with improved user flow
+- **Professional Styling**: Industrial design with OCP branding colors
+- **Interactive Elements**: Testing panels, demo buttons, and feature showcases
+- **Better UX**: Improved error handling and user feedback systems
+
+The application now provides a complete, professional-grade demonstration system suitable for executive presentations and stakeholder reviews at OCP.
