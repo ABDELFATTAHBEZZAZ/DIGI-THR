@@ -1,0 +1,182 @@
+Parfait ! Voici le **prompt ultra détaillé niveau professionnel**, ligne par ligne, pour **générer un prototype complet dans Replit** (ou tout autre IA génératrice de code), incluant toutes les **fonctionnalités du projet DIGI OFFICE**, **chaque page**, les **API backend**, la **structure des dossiers**, l'intégration de l’image du **chantier**, et même des **simulations de capteurs IoT et notifications temps réel**.
+
+---
+
+### ✅ PROMPT ULTRA DÉTAILLÉ À DONNER À REPLIT / BUILDER / GHOSTWRITER
+
+---
+
+> Je veux générer une **application web complète** appelée **DIGI OFFICE**, qui simule un système de gestion et de supervision des chantiers à haut risque pour l’entreprise OCP. Le but est de produire un prototype fonctionnel, responsive, moderne, utilisable sur PC et téléphone.
+>
+> Le projet doit être structuré en **React.js** pour le frontend, **Node.js avec Express** pour le backend, et **MongoDB** ou **fichiers JSON simulés** comme base de données (car c’est un prototype).
+>
+> ---
+>
+> ## 🧱 ARCHITECTURE GLOBALE DU PROJET
+>
+> **Frontend (React.js)** :
+>
+> * Pages : Accueil, Dashboard, Production, Maintenance, Sécurité, Carte du chantier, Temps & Performance, Notifications
+> * Routing avec React Router
+> * Composants réutilisables (Navbar, Sidebar, Footer, Card, KPI)
+> * Design responsive (Bootstrap ou TailwindCSS ou CSS modules)
+>
+> **Backend (Node.js + Express)** :
+>
+> * API REST pour chaque module (`/api/production`, `/api/maintenance`, etc.)
+> * Fichier `data.js` ou `mock.json` pour simuler des données si pas de base Mongo
+> * Middleware pour logs, CORS et JSON parsing
+>
+> ---
+>
+> ## 🌐 PAGES FRONTEND À CRÉER
+>
+> ### 1. Accueil (`/`)
+>
+> * Nom de l'application DIGI OFFICE
+> * Présentation rapide du système
+> * Boutons vers les sections principales
+>
+> ### 2. Dashboard (`/dashboard`)
+>
+> * Affichage en cartes + graphiques :
+>
+>   * KPI : Production en cours, Heures maintenance, Diesel utilisé, Alerte de sécurité
+>   * `Chart.js` ou `Recharts` pour les graphiques
+>   * Mise à jour automatique des données toutes les 10 secondes (avec `setInterval()`)
+>
+> ### 3. Production (`/production`)
+>
+> * Liste d’activités (id, nom, date, responsable, état)
+> * Formulaire d’ajout d’une nouvelle activité
+> * Boutons "Modifier" et "Supprimer"
+>
+> ### 4. Maintenance (`/maintenance`)
+>
+> * Calendrier interactif des interventions
+> * Liste avec filtre par machine / date
+> * Formulaire d’ajout maintenance
+>
+> ### 5. Supervision Risques (`/securite`)
+>
+> * Section d’alerte automatique (simulée)
+> * Liste des incidents détectés (avec type, lieu, heure)
+> * Bouton pour déclencher une alerte test
+>
+> ### 6. Carte du Chantier (`/carte`)
+>
+> * **Affichage de l’image `chantier_map.png`**
+> * Le fichier est stocké dans `public/images/chantier_map.png`
+> * Le code React :
+>
+> ```jsx
+> <img src="/images/chantier_map.png" alt="Carte du Chantier" style={{ width: "100%", maxHeight: "600px", objectFit: "contain", borderRadius: "8px" }} />
+> ```
+>
+> * Ajouter des zones cliquables (simulées) avec un tooltip ou `onClick` qui déclenche une alerte
+>
+> ### 7. Temps & Performances (`/temps`)
+>
+> * Suivi du nombre d’heures des employés (tableau)
+> * Performance machines (graphiques radar ou bar)
+>
+> ### 8. Notifications (`/notifications`)
+>
+> * Liste d'alertes reçues
+> * Bouton “Envoyer alerte test”
+> * Simuler notifications avec `toast`, `alert()` ou modale
+>
+> ---
+>
+> ## ⚙️ BACKEND (Node.js + Express)
+>
+> Structure des routes :
+>
+> * `GET /api/production`
+> * `POST /api/production`
+> * `GET /api/maintenance`
+> * `POST /api/maintenance`
+> * `GET /api/alerts`
+> * `POST /api/alerts`
+>
+> Simule les données avec `mock/production.json`, `mock/maintenance.json`, etc.
+>
+> Exemple de structure JSON :
+>
+> ```json
+> {
+>   "id": "prod_001",
+>   "nom": "Chargement convoyeur 3",
+>   "responsable": "Ahmed",
+>   "etat": "En cours",
+>   "date": "2025-07-15T08:00:00"
+> }
+> ```
+>
+> ---
+>
+> ## 🔔 NOTIFICATIONS (Simulées)
+>
+> * Simuler les alertes de sécurité (détection capteurs fictifs)
+> * Utiliser `setInterval()` pour générer une fausse alerte toutes les 30 secondes
+> * Utiliser Firebase Cloud Messaging si possible, sinon afficher des `toast` ou `modale` :
+>
+> ```js
+> alert("⚠️ Travaux à haut risque détectés dans la zone 2 !");
+> ```
+>
+> ---
+>
+> ## 📁 STRUCTURE DU PROJET À UTILISER
+>
+> ```
+> /client (React)
+> ├── /src
+> │   ├── /components
+> │   ├── /pages
+> │   ├── App.js
+> │   ├── index.js
+> └── public/images/chantier_map.png
+>
+> /server (Node.js)
+> ├── /routes
+> │   ├── production.js
+> │   ├── maintenance.js
+> │   └── alerts.js
+> ├── /mock
+> │   ├── production.json
+> │   └── alerts.json
+> └── server.js
+> ```
+>
+> ---
+>
+> ## 📱 MOBILE FRIENDLY
+>
+> * Utiliser `flex`, `grid`, ou Tailwind pour que toutes les pages soient adaptables aux écrans mobile
+> * Tester avec des media queries ou `@media`
+>
+> ---
+>
+> ## 🎨 DESIGN
+>
+> * Utiliser des couleurs sobres (gris, bleu foncé, orange sécurité)
+> * Design simple, type dashboard d’entreprise
+> * Icônes SVG pour les alertes et les menus
+>
+> ---
+>
+> ## ✨ BONUS (si possible)
+>
+> * Mode sombre / clair
+> * Barre d’état en haut avec nom de l’utilisateur connecté
+> * Compteur en direct du nombre d’alertes déclenchées
+>
+> ---
+>
+> Génère-moi ce projet complet prêt à lancer dans Replit, avec les fichiers nécessaires.
+> Je suis stagiaire à l’OCP et je souhaite livrer un **prototype crédible, professionnel et interactif**, pour simuler un vrai outil de supervision chantier avec notifications et carte personnalisée.
+
+---
+
+Souhaites-tu maintenant que je te **génère directement ce projet** (squelette React + Node) avec la structure complète et les fichiers prêts à importer dans Replit ?
