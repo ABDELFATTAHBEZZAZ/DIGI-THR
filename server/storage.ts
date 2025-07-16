@@ -15,6 +15,8 @@ import {
   type Notification,
   type InsertNotification
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -319,4 +321,156 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async getProductionActivities(): Promise<ProductionActivity[]> {
+    return await db.select().from(productionActivities);
+  }
+
+  async getProductionActivity(id: number): Promise<ProductionActivity | undefined> {
+    const [activity] = await db.select().from(productionActivities).where(eq(productionActivities.id, id));
+    return activity || undefined;
+  }
+
+  async createProductionActivity(activity: InsertProductionActivity): Promise<ProductionActivity> {
+    const [newActivity] = await db
+      .insert(productionActivities)
+      .values(activity)
+      .returning();
+    return newActivity;
+  }
+
+  async updateProductionActivity(id: number, activity: Partial<InsertProductionActivity>): Promise<ProductionActivity | undefined> {
+    const [updated] = await db
+      .update(productionActivities)
+      .set(activity)
+      .where(eq(productionActivities.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteProductionActivity(id: number): Promise<boolean> {
+    const result = await db
+      .delete(productionActivities)
+      .where(eq(productionActivities.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  async getMaintenanceSchedules(): Promise<MaintenanceSchedule[]> {
+    return await db.select().from(maintenanceSchedules);
+  }
+
+  async getMaintenanceSchedule(id: number): Promise<MaintenanceSchedule | undefined> {
+    const [schedule] = await db.select().from(maintenanceSchedules).where(eq(maintenanceSchedules.id, id));
+    return schedule || undefined;
+  }
+
+  async createMaintenanceSchedule(schedule: InsertMaintenanceSchedule): Promise<MaintenanceSchedule> {
+    const [newSchedule] = await db
+      .insert(maintenanceSchedules)
+      .values(schedule)
+      .returning();
+    return newSchedule;
+  }
+
+  async updateMaintenanceSchedule(id: number, schedule: Partial<InsertMaintenanceSchedule>): Promise<MaintenanceSchedule | undefined> {
+    const [updated] = await db
+      .update(maintenanceSchedules)
+      .set(schedule)
+      .where(eq(maintenanceSchedules.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteMaintenanceSchedule(id: number): Promise<boolean> {
+    const result = await db
+      .delete(maintenanceSchedules)
+      .where(eq(maintenanceSchedules.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  async getSecurityAlerts(): Promise<SecurityAlert[]> {
+    return await db.select().from(securityAlerts);
+  }
+
+  async getSecurityAlert(id: number): Promise<SecurityAlert | undefined> {
+    const [alert] = await db.select().from(securityAlerts).where(eq(securityAlerts.id, id));
+    return alert || undefined;
+  }
+
+  async createSecurityAlert(alert: InsertSecurityAlert): Promise<SecurityAlert> {
+    const [newAlert] = await db
+      .insert(securityAlerts)
+      .values(alert)
+      .returning();
+    return newAlert;
+  }
+
+  async updateSecurityAlert(id: number, alert: Partial<InsertSecurityAlert>): Promise<SecurityAlert | undefined> {
+    const [updated] = await db
+      .update(securityAlerts)
+      .set(alert)
+      .where(eq(securityAlerts.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteSecurityAlert(id: number): Promise<boolean> {
+    const result = await db
+      .delete(securityAlerts)
+      .where(eq(securityAlerts.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  async getNotifications(): Promise<Notification[]> {
+    return await db.select().from(notifications);
+  }
+
+  async getNotification(id: number): Promise<Notification | undefined> {
+    const [notification] = await db.select().from(notifications).where(eq(notifications.id, id));
+    return notification || undefined;
+  }
+
+  async createNotification(notification: InsertNotification): Promise<Notification> {
+    const [newNotification] = await db
+      .insert(notifications)
+      .values(notification)
+      .returning();
+    return newNotification;
+  }
+
+  async updateNotification(id: number, notification: Partial<InsertNotification>): Promise<Notification | undefined> {
+    const [updated] = await db
+      .update(notifications)
+      .set(notification)
+      .where(eq(notifications.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteNotification(id: number): Promise<boolean> {
+    const result = await db
+      .delete(notifications)
+      .where(eq(notifications.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+}
+
+export const storage = new DatabaseStorage();
