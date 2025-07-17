@@ -16,10 +16,12 @@ import {
   User,
   Clock,
   Info,
-  Layers
+  Layers,
+  LogOut
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -55,6 +57,7 @@ export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
   const { toast } = useToast();
+  const { user, logout } = useAuth();
 
   // Fetch unread notifications count
   const { data: notifications = [] } = useQuery({
@@ -98,7 +101,7 @@ export default function Layout({ children }: LayoutProps) {
   const Sidebar = ({ mobile = false }) => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="flex items-center justify-center h-16 px-4 bg-ocp-blue">
+      <div className="flex items-center justify-center h-16 px-4 bg-ocp-green">
         <h1 className="text-xl font-bold text-white">DIGI THR</h1>
       </div>
 
@@ -117,8 +120,8 @@ export default function Layout({ children }: LayoutProps) {
                 variant="ghost"
                 className={`w-full justify-start px-4 py-3 rounded-none transition-colors duration-200 ${
                   isActive
-                    ? "bg-ocp-blue text-white"
-                    : "text-gray-700 hover:bg-ocp-blue hover:text-white"
+                    ? "bg-ocp-green text-white"
+                    : "text-gray-700 hover:bg-ocp-green hover:text-white"
                 }`}
               >
                 <Icon className="mr-3 h-4 w-4" />
@@ -133,6 +136,29 @@ export default function Layout({ children }: LayoutProps) {
           );
         })}
       </nav>
+
+      {/* User Profile & Logout */}
+      <div className="mt-auto border-t border-gray-200 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-ocp-green rounded-full flex items-center justify-center">
+              <User className="h-4 w-4 text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">{user?.name || 'Utilisateur'}</p>
+              <p className="text-xs text-gray-500">{user?.username}</p>
+            </div>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={logout}
+            className="text-gray-500 hover:text-red-600 hover:bg-red-50"
+          >
+            <LogOut className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 
@@ -158,7 +184,7 @@ export default function Layout({ children }: LayoutProps) {
           </SheetContent>
         </Sheet>
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-          DIGI OFFICE
+          DIGI THR
         </div>
       </div>
 
@@ -178,7 +204,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex items-center space-x-4">
               <div className="flex items-center text-sm text-gray-600">
                 <User className="mr-2 h-4 w-4" />
-                Ahmed Benali
+                {user?.name || 'Utilisateur'}
               </div>
               <div className="flex items-center text-sm text-gray-600">
                 <Clock className="mr-2 h-4 w-4" />
@@ -187,6 +213,15 @@ export default function Layout({ children }: LayoutProps) {
                   minute: '2-digit' 
                 })}
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
+                className="text-gray-600 hover:text-red-600 hover:border-red-600"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Déconnexion
+              </Button>
             </div>
           </div>
         </header>

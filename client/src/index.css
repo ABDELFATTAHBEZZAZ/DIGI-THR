@@ -13,21 +13,22 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  --primary: hsl(142, 76%, 36%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(142, 20%, 95%);
+  --secondary-foreground: hsl(142, 30%, 20%);
+  --accent: hsl(142, 20%, 95%);
+  --accent-foreground: hsl(142, 30%, 20%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
+  --ring: hsl(142, 76%, 36%);
   --radius: 0.5rem;
   
-  /* OCP Custom Colors */
-  --ocp-blue: hsl(207, 90%, 54%);
+  /* OCP Custom Colors - Updated to Green Theme */
+  --ocp-green: hsl(142, 76%, 36%);
+  --ocp-green-dark: hsl(142, 76%, 28%);
+  --ocp-green-light: hsl(142, 50%, 85%);
   --ocp-gray: hsl(0, 0%, 26%);
-  --ocp-orange: hsl(37, 100%, 50%);
   --ocp-light-gray: hsl(0, 0%, 96%);
 }
 
@@ -42,12 +43,12 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(142, 76%, 36%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(142, 20%, 15%);
+  --secondary-foreground: hsl(142, 50%, 85%);
+  --accent: hsl(142, 20%, 15%);
+  --accent-foreground: hsl(142, 50%, 85%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(240, 4.9%, 83.9%);
@@ -66,43 +67,47 @@
 }
 
 @layer utilities {
-  .bg-ocp-blue {
-    background-color: var(--ocp-blue);
+  .bg-ocp-green {
+    background-color: var(--ocp-green);
+  }
+  
+  .bg-ocp-green-dark {
+    background-color: var(--ocp-green-dark);
+  }
+  
+  .bg-ocp-green-light {
+    background-color: var(--ocp-green-light);
   }
   
   .bg-ocp-gray {
     background-color: var(--ocp-gray);
   }
   
-  .bg-ocp-orange {
-    background-color: var(--ocp-orange);
-  }
-  
   .bg-ocp-light-gray {
     background-color: var(--ocp-light-gray);
   }
   
-  .text-ocp-blue {
-    color: var(--ocp-blue);
+  .text-ocp-green {
+    color: var(--ocp-green);
+  }
+  
+  .text-ocp-green-dark {
+    color: var(--ocp-green-dark);
   }
   
   .text-ocp-gray {
     color: var(--ocp-gray);
   }
   
-  .text-ocp-orange {
-    color: var(--ocp-orange);
+  .border-ocp-green {
+    border-color: var(--ocp-green);
   }
   
-  .border-ocp-blue {
-    border-color: var(--ocp-blue);
+  .hover\:bg-ocp-green:hover {
+    background-color: var(--ocp-green);
   }
   
-  .hover\:bg-ocp-blue:hover {
-    background-color: var(--ocp-blue);
-  }
-  
-  .hover\:bg-ocp-orange:hover {
-    background-color: var(--ocp-orange);
+  .hover\:bg-ocp-green-dark:hover {
+    background-color: var(--ocp-green-dark);
   }
 }

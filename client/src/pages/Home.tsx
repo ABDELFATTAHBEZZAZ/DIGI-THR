@@ -19,8 +19,8 @@ export default function Home() {
           alt="Mine de Sidi Chennane - Supervision digitale" 
           className="rounded-xl shadow-lg mx-auto mb-8 w-full max-w-3xl"
         />
-        <div className="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg max-w-4xl mx-auto mb-8">
-          <h3 className="text-lg font-semibold text-ocp-blue mb-3">Mine de Sidi Chennane - OCP Maroc</h3>
+        <div className="bg-green-50 dark:bg-green-900 p-6 rounded-lg max-w-4xl mx-auto mb-8">
+          <h3 className="text-lg font-semibold text-ocp-green mb-3">Mine de Sidi Chennane - OCP Maroc</h3>
           <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
             Site minier stratégique nécessitant une supervision continue des risques physiques, explosions potentielles, 
             et incidents mécaniques. DIGI THR apporte une solution numérique complète pour la détection d'accès non autorisé 
@@ -32,7 +32,7 @@ export default function Home() {
           <Link href="/dashboard">
             <Button 
               size="lg" 
-              className="bg-ocp-blue hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+              className="bg-ocp-green hover:bg-ocp-green-dark text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <BarChart3 className="mr-2 h-5 w-5" />
               Accéder au Dashboard
@@ -45,7 +45,7 @@ export default function Home() {
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardContent className="p-6">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-ocp-blue rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-ocp-green rounded-lg flex items-center justify-center">
                 <BarChart3 className="text-white" size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 ml-4">Dashboard</h3>
@@ -54,7 +54,7 @@ export default function Home() {
               Supervision en temps réel des KPIs et indicateurs
             </p>
             <Link href="/dashboard">
-              <Button className="bg-ocp-blue hover:bg-blue-700 text-white">
+              <Button className="bg-ocp-green hover:bg-ocp-green-dark text-white">
                 Accéder
               </Button>
             </Link>
@@ -64,7 +64,7 @@ export default function Home() {
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardContent className="p-6">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-ocp-green rounded-lg flex items-center justify-center">
                 <Factory className="text-white" size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 ml-4">Production</h3>
@@ -73,7 +73,7 @@ export default function Home() {
               Gestion des activités de production
             </p>
             <Link href="/production">
-              <Button className="bg-ocp-blue hover:bg-blue-700 text-white">
+              <Button className="bg-ocp-green hover:bg-ocp-green-dark text-white">
                 Accéder
               </Button>
             </Link>
@@ -83,7 +83,7 @@ export default function Home() {
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardContent className="p-6">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-ocp-orange rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-ocp-green rounded-lg flex items-center justify-center">
                 <Shield className="text-white" size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 ml-4">Sécurité</h3>
@@ -92,7 +92,7 @@ export default function Home() {
               Supervision des risques et alertes
             </p>
             <Link href="/security">
-              <Button className="bg-ocp-blue hover:bg-blue-700 text-white">
+              <Button className="bg-ocp-green hover:bg-ocp-green-dark text-white">
                 Accéder
               </Button>
             </Link>
