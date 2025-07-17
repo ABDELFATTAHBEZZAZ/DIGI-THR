@@ -16,17 +16,33 @@ export function useAuth() {
       
       if (isAuthenticated && userData) {
         setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
       }
       setIsLoading(false);
     };
 
     checkAuth();
+
+    // Listen for storage changes to update auth state
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'isAuthenticated' || e.key === 'user') {
+        checkAuth();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const logout = () => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
     setUser(null);
+    window.location.href = '/';
   };
 
   return {

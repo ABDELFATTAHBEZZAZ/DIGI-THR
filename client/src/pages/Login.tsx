@@ -31,7 +31,8 @@ export default function Login() {
           title: "Connexion réussie",
           description: "Bienvenue sur DIGI THR",
         });
-        setLocation('/');
+        // Force page reload to trigger authentication check
+        window.location.href = '/';
       } else {
         toast({
           title: "Erreur de connexion",
