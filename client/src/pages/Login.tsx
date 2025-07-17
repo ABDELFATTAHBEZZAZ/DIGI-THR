@@ -49,7 +49,7 @@ export default function Login() {
       <Card className="w-full max-w-md bg-white shadow-2xl">
         <CardHeader className="text-center pb-6">
           <div className="mx-auto mb-4">
-            <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center bg-white rounded-full p-2 shadow-md">
               <img 
                 src="/attached_assets/OCP_Group.svg_1752775471292.png" 
                 alt="OCP Logo" 

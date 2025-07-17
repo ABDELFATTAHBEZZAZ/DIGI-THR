@@ -7,6 +7,8 @@ DIGI THR (Travaux à Haut Risque) is a comprehensive web application designed fo
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Authentication: Login system with credentials (login: abdelfattah, password: abdelfattah ocp)
+Design: Green color scheme with OCP logo integration and white backgrounds for logo visibility
 
 ## System Architecture
 
