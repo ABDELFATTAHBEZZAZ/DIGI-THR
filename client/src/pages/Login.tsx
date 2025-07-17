@@ -51,7 +51,7 @@ export default function Login() {
           <div className="mx-auto mb-4">
             <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center bg-white rounded-full p-2 shadow-md">
               <img 
-                src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+                src="/ocp-logo.png" 
                 alt="OCP Logo" 
                 className="w-full h-full object-contain"
               />

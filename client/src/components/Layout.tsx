@@ -105,7 +105,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-white rounded-full p-1 flex items-center justify-center">
             <img 
-              src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+              src="/ocp-logo.png" 
               alt="OCP Logo" 
               className="w-full h-full object-contain"
             />
@@ -152,7 +152,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center p-1">
               <img 
-                src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+                src="/ocp-logo.png" 
                 alt="OCP Logo" 
                 className="w-full h-full object-contain"
               />

@@ -23,7 +23,7 @@ export default function Home() {
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-12 bg-white rounded-full p-2 mr-3 shadow-sm">
               <img 
-                src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+                src="/ocp-logo.png" 
                 alt="OCP Logo" 
                 className="w-full h-full object-contain"
               />
