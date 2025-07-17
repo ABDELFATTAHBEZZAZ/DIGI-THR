@@ -31,7 +31,7 @@ export default function Login() {
           title: "Connexion réussie",
           description: "Bienvenue sur DIGI THR",
         });
-        setLocation('/dashboard');
+        setLocation('/');
       } else {
         toast({
           title: "Erreur de connexion",
