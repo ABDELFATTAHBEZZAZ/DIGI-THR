@@ -102,7 +102,14 @@ export default function Layout({ children }: LayoutProps) {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center justify-center h-16 px-4 bg-ocp-green">
-        <h1 className="text-xl font-bold text-white">DIGI THR</h1>
+        <div className="flex items-center space-x-2">
+          <img 
+            src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+            alt="OCP Logo" 
+            className="w-8 h-8 object-contain"
+          />
+          <h1 className="text-xl font-bold text-white">DIGI THR</h1>
+        </div>
       </div>
 
       {/* Navigation */}
@@ -142,7 +149,11 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-ocp-green rounded-full flex items-center justify-center">
-              <User className="h-4 w-4 text-white" />
+              <img 
+                src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+                alt="OCP Logo" 
+                className="w-5 h-5 object-contain"
+              />
             </div>
             <div>
               <p className="text-sm font-medium text-gray-900">{user?.name || 'Utilisateur'}</p>

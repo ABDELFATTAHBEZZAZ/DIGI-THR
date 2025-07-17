@@ -49,10 +49,12 @@ export default function Login() {
       <Card className="w-full max-w-md bg-white shadow-2xl">
         <CardHeader className="text-center pb-6">
           <div className="mx-auto mb-4">
-            <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L13.09 8.26L19 9L13.09 9.74L12 16L10.91 9.74L5 9L10.91 8.26L12 2Z"/>
-              </svg>
+            <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center">
+              <img 
+                src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+                alt="OCP Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="text-2xl font-bold text-gray-800">OCP</h1>
             <p className="text-sm text-gray-600 mt-1">Plateforme de Prédiction ML</p>

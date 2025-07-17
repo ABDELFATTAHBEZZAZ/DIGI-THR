@@ -20,7 +20,14 @@ export default function Home() {
           className="rounded-xl shadow-lg mx-auto mb-8 w-full max-w-3xl"
         />
         <div className="bg-green-50 dark:bg-green-900 p-6 rounded-lg max-w-4xl mx-auto mb-8">
-          <h3 className="text-lg font-semibold text-ocp-green mb-3">Mine de Sidi Chennane - OCP Maroc</h3>
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="/attached_assets/OCP_Group.svg_1752775471292.png" 
+              alt="OCP Logo" 
+              className="w-12 h-12 object-contain mr-3"
+            />
+            <h3 className="text-lg font-semibold text-ocp-green">Mine de Sidi Chennane - OCP Maroc</h3>
+          </div>
           <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
             Site minier stratégique nécessitant une supervision continue des risques physiques, explosions potentielles, 
             et incidents mécaniques. DIGI THR apporte une solution numérique complète pour la détection d'accès non autorisé 
