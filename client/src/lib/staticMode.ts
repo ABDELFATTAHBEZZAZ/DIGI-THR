@@ -1,5 +1,5 @@
-// Static mode configuration for deployment
-export const isStaticMode = import.meta.env.MODE === 'production' || import.meta.env.VITE_STATIC_MODE === 'true';
+// Désactivation du mode statique pour permettre la communication avec le serveur backend
+export const isStaticMode = false;
 
 // Static API responses
 export const staticResponses = {

@@ -30,19 +30,19 @@ export async function seedDatabase() {
       name: "Extraction Zone A",
       responsible: "Ahmed Benali",
       status: "En cours",
-      date: new Date("2025-01-16")
+      date: "2025-01-16"
     },
     {
       name: "Transport matériaux",
       responsible: "Fatima Zahra",
       status: "Terminé",
-      date: new Date("2025-01-15")
+      date: "2025-01-15"
     },
     {
       name: "Forage secteur B",
       responsible: "Mohamed Alaoui",
       status: "En attente",
-      date: new Date("2025-01-17")
+      date: "2025-01-17"
     }
   ]);
 
@@ -52,19 +52,19 @@ export async function seedDatabase() {
       machine: "Excavatrice CAT 320",
       type: "Préventive",
       description: "Vérification hydraulique et changement filtres",
-      scheduledDate: new Date("2025-01-18")
+      scheduledDate: "2025-01-18"
     },
     {
       machine: "Camion Volvo FH16",
       type: "Corrective",
       description: "Réparation système de freinage",
-      scheduledDate: new Date("2025-01-16")
+      scheduledDate: "2025-01-16"
     },
     {
       machine: "Chargeuse Liebherr",
       type: "Préventive",
       description: "Entretien moteur et vérification pneumatiques",
-      scheduledDate: new Date("2025-01-20")
+      scheduledDate: "2025-01-20"
     }
   ]);
 

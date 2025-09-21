@@ -3,8 +3,9 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -14,40 +15,112 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation simple
+    if (!formData.username || !formData.password) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
-    // Simulate login process
-    setTimeout(() => {
-      if (
-        formData.username === "abdelfattah" &&
-        formData.password === "abdelfattah ocp"
-      ) {
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            username: "abdelfattah",
-            name: "Abdelfattah",
-          }),
-        );
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include", // Important pour les cookies de session
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Tenter de parser en JSON; fallback en texte si le serveur renvoie du HTML
+        let userData: any = null;
+        try {
+          const ct = response.headers.get('content-type') || '';
+          if (ct.includes('application/json')) {
+            userData = await response.json();
+          } else {
+            const text = await response.text();
+            throw new Error(`Réponse inattendue du serveur (non JSON): ${text.slice(0, 200)}`);
+          }
+        } catch (e) {
+          console.error('Erreur de parsing de la réponse login:', e);
+          toast({
+            title: 'Erreur de connexion',
+            description: e instanceof Error ? e.message : 'Réponse inattendue du serveur',
+            variant: 'destructive',
+          });
+          return;
+        }
+        
+        // Utilise la méthode login du hook useAuth
+        login(userData);
+        
         toast({
-          title: "Connexion réussie",
-          description: "Bienvenue sur DIGI THR",
+          title: "Connexion réussie !",
+          description: `Bienvenue ${userData.name}`,
         });
-        // Force page reload to trigger authentication check
-        window.location.href = "/";
+        
+        // Redirection en fonction du rôle
+        switch(userData.role) {
+          case 'ADMIN':
+            window.location.href = "/admin";
+            break;
+          case 'SUPERVISEUR':
+            window.location.href = "/";
+            break;
+          case 'CHEF_MAINTENANCE':
+            window.location.href = "/maintenance";
+            break;
+          case 'AGENT_SECURITE':
+            window.location.href = "/security";
+            break;
+          case 'OPERATEUR':
+            window.location.href = "/production";
+            break;
+          default:
+            window.location.href = "/";
+        }
       } else {
-        toast({
-          title: "Erreur de connexion",
-          description: "Nom d'utilisateur ou mot de passe incorrect",
-          variant: "destructive",
-        });
+        // Gérer proprement les réponses non-JSON (HTML d'erreur, etc.)
+        const ct = response.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          const error = await response.json();
+          toast({
+            title: 'Erreur de connexion',
+            description: error.error || "Nom d'utilisateur ou mot de passe incorrect",
+            variant: 'destructive',
+          });
+        } else {
+          const text = await response.text();
+          toast({
+            title: 'Erreur de connexion',
+            description: text.slice(0, 200) || `Statut ${response.status}`,
+            variant: 'destructive',
+          });
+        }
       }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast({
+        title: "Erreur",
+        description: "Erreur de connexion",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -63,20 +136,16 @@ export default function Login() {
               />
             </div>
             <h1 className="text-2xl font-bold text-gray-800">OCP</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              Plateforme de Prédiction ML
+            <p className="text-sm text-gray-700 mt-2 font-semibold">
+              DIGI THR - Supervision intelligente des travaux à haut risque
             </p>
-            <p className="text-xs text-gray-500 mt-1">
-              Technologie Durable pour l'Exploitation Minière et...
-            </p>
-            <p className="text-xs text-gray-500">l'Agriculture</p>
           </div>
           <h2 className="text-xl font-semibold text-gray-800 mt-4">
             Bon Retour
           </h2>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <Label
                 htmlFor="username"

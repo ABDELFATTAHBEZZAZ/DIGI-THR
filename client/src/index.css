@@ -30,6 +30,8 @@
   --ocp-green-light: hsl(142, 50%, 85%);
   --ocp-gray: hsl(0, 0%, 26%);
   --ocp-light-gray: hsl(0, 0%, 96%);
+  --ocp-blue: hsl(217, 91%, 60%);
+  --ocp-orange: hsl(25, 95%, 53%);
 }
 
 .dark {
@@ -109,5 +111,29 @@
   
   .hover\:bg-ocp-green-dark:hover {
     background-color: var(--ocp-green-dark);
+  }
+
+  .bg-ocp-blue {
+    background-color: var(--ocp-blue);
+  }
+
+  .bg-ocp-orange {
+    background-color: var(--ocp-orange);
+  }
+
+  .text-ocp-blue {
+    color: var(--ocp-blue);
+  }
+
+  .text-ocp-orange {
+    color: var(--ocp-orange);
+  }
+
+  .hover\:bg-ocp-blue:hover {
+    background-color: hsl(217, 91%, 55%);
+  }
+
+  .hover\:bg-ocp-orange:hover {
+    background-color: hsl(25, 95%, 48%);
   }
 }

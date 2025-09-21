@@ -13,11 +13,29 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
+  // En développement, on utilise le chemin relatif pour profiter du proxy Vite
+  // En production, on utilise l'URL complète si nécessaire
+  const isDev = process.env.NODE_ENV === 'development';
+  const baseUrl = isDev ? '' : 'http://localhost:3001';
+  const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+  
+  console.log(`Envoi de la requête ${method} vers ${fullUrl}`); // Log pour le débogage
+  
+  const headers: HeadersInit = {};
+  
+  // Ajouter le content-type uniquement pour les requêtes avec un corps
+  if (data) {
+    headers['Content-Type'] = 'application/json';
+  }
+  
+  // Ajouter les credentials pour les requêtes d'authentification
+  const credentials: RequestCredentials = 'include';
+  
+  const res = await fetch(fullUrl, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
+    credentials,
   });
 
   await throwIfResNotOk(res);
@@ -25,29 +43,28 @@ export async function apiRequest(
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
-export const getQueryFn: <T>(options: {
-  on401: UnauthorizedBehavior;
-}) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
+
+export function getQueryFn<T>({ on401: unauthorizedBehavior }: { on401: UnauthorizedBehavior }): QueryFunction<T> {
+  return async ({ queryKey }) => {
     const url = queryKey.join("/") as string;
     
     // Use static data in production/static mode
     if (isStaticMode && staticResponses[url as keyof typeof staticResponses]) {
-      return staticResponses[url as keyof typeof staticResponses]();
+      const staticResponse = staticResponses[url as keyof typeof staticResponses];
+      return staticResponse() as Promise<T>;
     }
     
-    const res = await fetch(url, {
-      credentials: "include",
-    });
-
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+    try {
+      const res = await apiRequest('GET', url);
+      return await res.json() as T;
+    } catch (error: any) {
+      if (unauthorizedBehavior === "returnNull" && error.message.startsWith('401:')) {
+        return null as unknown as T;
+      }
+      throw error;
     }
-
-    await throwIfResNotOk(res);
-    return await res.json();
   };
+}
 
 export const queryClient = new QueryClient({
   defaultOptions: {

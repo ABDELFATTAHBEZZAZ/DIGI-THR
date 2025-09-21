@@ -3,7 +3,30 @@ import fs from "fs";
 import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
+// Configuration Vite dynamique
+const viteConfig = {
+  root: path.resolve(import.meta.dirname, '..', 'client'),
+  server: {
+    fs: {
+      strict: true,
+      deny: ['**/.*']
+    },
+    proxy: {
+      '/api': 'http://localhost:3001'
+    }
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname, '..', 'client', 'src'),
+      '@shared': path.resolve(import.meta.dirname, '..', 'shared'),
+      '@assets': path.resolve(import.meta.dirname, '..', 'attached_assets')
+    }
+  },
+  build: {
+    outDir: path.resolve(import.meta.dirname, '..', 'dist', 'public'),
+    emptyOutDir: true
+  }
+};
 import { nanoid } from "nanoid";
 
 const viteLogger = createLogger();
@@ -20,6 +43,8 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: Server) {
+  // Retourner l'instance Vite pour pouvoir l'utiliser dans index.ts
+  let viteInstance: any;
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
@@ -40,9 +65,18 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
-  app.use(vite.middlewares);
+  // Stocker l'instance Vite pour le retour
+  viteInstance = vite;
+  
+  // Do not intercept API requests
+  app.use((req, res, next) => {
+    const url = req.originalUrl || req.url || '';
+    if (url.startsWith('/api')) return next();
+    return vite.middlewares(req, res, next);
+  });
   app.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
+    const url = req.originalUrl || req.url || '';
+    if (url.startsWith('/api')) return next();
 
     try {
       const clientTemplate = path.resolve(
@@ -65,6 +99,8 @@ export async function setupVite(app: Express, server: Server) {
       next(e);
     }
   });
+  
+  return viteInstance;
 }
 
 export function serveStatic(app: Express) {

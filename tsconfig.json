@@ -1,23 +1,36 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
+  "include": ["client/src/**/*", "shared/**/*", "server/**/*", "types/**/*.d.ts", "client/src/@types"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
+    "outDir": "./dist",
     "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
     "strict": true,
     "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "@types/express-session", "react", "react-dom", "@types/react"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
     "paths": {
       "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
-    }
+      "@shared/*": ["./shared/*"],
+      "@assets/*": ["./attached_assets/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

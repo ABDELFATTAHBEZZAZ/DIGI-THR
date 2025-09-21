@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGI THR - DocumentAnalyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .role-badge-admin { @apply bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium; }
+        .role-badge-superviseur { @apply bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium; }
+        .role-badge-chef { @apply bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-medium; }
+        .role-badge-agent { @apply bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-medium; }
+        .role-badge-operateur { @apply bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app">
+        <!-- Login Page -->
+        <div id="loginPage" class="min-h-screen bg-green-600 flex items-center justify-center p-4">
+            <div class="w-full max-w-md bg-white shadow-2xl rounded-lg">
+                <div class="text-center p-6 pb-6">
+                    <div class="mx-auto mb-4">
+                        <div class="w-20 h-20 mx-auto mb-3 flex items-center justify-center bg-white rounded-full p-2 shadow-md">
+                            <img src="/ocp-logo.png" alt="OCP Logo" class="w-full h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">OCP</h1>
+                        <p class="text-sm text-gray-700 mt-2 font-semibold">
+                            DIGI THR - Supervision intelligente des travaux à haut risque
+                        </p>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mt-4">Bon Retour</h2>
+                </div>
+                <div class="p-6">
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Nom d'utilisateur</label>
+                            <input id="username" type="text" placeholder="username" required 
+                                   class="w-full mt-1 bg-gray-50 border border-gray-300 rounded-md px-3 py-2 focus:border-green-500 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-700 block mb-1">Mot de Passe</label>
+                            <input id="password" type="password" placeholder="••••••••" required 
+                                   class="w-full mt-1 bg-gray-50 border border-gray-300 rounded-md px-3 py-2 focus:border-green-500 focus:ring-green-500">
+                        </div>
+                        <button type="submit" id="loginBtn" 
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 mt-6 rounded-md">
+                            Se Connecter
+                        </button>
+                    </form>
+                    <div id="loginError" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp" class="hidden">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center space-x-8">
+                            <div class="flex items-center">
+                                <img src="/ocp-logo.png" alt="OCP" class="h-8 w-8 mr-2" onerror="this.style.display='none'">
+                                <span class="text-xl font-bold text-green-600">DIGI THR</span>
+                            </div>
+                            <div class="hidden md:flex space-x-4">
+                                <a href="#" onclick="showPage('dashboard')" class="nav-link">Tableau de Bord</a>
+                                <a href="#" onclick="showPage('production')" class="nav-link">Production</a>
+                                <a href="#" onclick="showPage('maintenance')" class="nav-link">Maintenance</a>
+                                <a href="#" onclick="showPage('security')" class="nav-link">Sécurité</a>
+                                <a href="#" id="adminLink" onclick="showPage('admin')" class="nav-link hidden">Administration</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span id="userInfo" class="text-sm text-gray-600"></span>
+                            <button onclick="logout()" class="text-sm text-red-600 hover:text-red-800">Déconnexion</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Admin Page -->
+            <div id="adminPage" class="hidden p-6 space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-2">
+                            🛡️ Administration des Utilisateurs
+                        </h1>
+                        <p class="text-gray-600 mt-2">Gestion des comptes et affectation des rôles</p>
+                    </div>
+                    <button onclick="showCreateForm()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                        👤 Nouvel Utilisateur
+                    </button>
+                </div>
+
+                <!-- Create User Form -->
+                <div id="createUserForm" class="hidden bg-white p-6 rounded-lg border border-green-200">
+                    <h3 class="text-lg font-semibold text-green-800 mb-4">Créer un Nouvel Utilisateur</h3>
+                    <form id="userForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom d'utilisateur *</label>
+                                <input id="newUsername" type="text" required class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
+                                <input id="newName" type="text" required class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mot de passe *</label>
+                                <input id="newPassword" type="password" required class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Département</label>
+                                <input id="newDepartment" type="text" placeholder="Ex: Production, Maintenance..." class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Rôle *</label>
+                            <select id="newRole" required class="w-full border border-gray-300 rounded-md px-3 py-2">
+                                <option value="ADMIN">🔴 Administrateur</option>
+                                <option value="SUPERVISEUR">🔵 Superviseur Mine</option>
+                                <option value="CHEF_MAINTENANCE">🟠 Chef Maintenance</option>
+                                <option value="AGENT_SECURITE">🟣 Agent Sécurité</option>
+                                <option value="OPERATEUR" selected>🟢 Opérateur Production</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-2 pt-4">
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                                Créer
+                            </button>
+                            <button type="button" onclick="hideCreateForm()" class="border border-gray-300 text-gray-700 px-4 py-2 rounded-md">
+                                Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Users List -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-6 border-b">
+                        <h3 class="text-lg font-semibold">Utilisateurs Existants</h3>
+                    </div>
+                    <div id="usersList" class="p-6">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="p-6">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">Tableau de Bord</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900">Production Active</h3>
+                        <p class="text-3xl font-bold text-green-600 mt-2">3</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900">Maintenance</h3>
+                        <p class="text-3xl font-bold text-orange-600 mt-2">2</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900">Alertes Sécurité</h3>
+                        <p class="text-3xl font-bold text-red-600 mt-2">1</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900">Utilisateurs</h3>
+                        <p class="text-3xl font-bold text-blue-600 mt-2" id="userCount">2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let users = [];
+
+        // Check if user is logged in
+        function checkAuth() {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                showMainApp();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        // Show login page
+        function showLoginPage() {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+
+        // Show main app
+        function showMainApp() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            
+            // Update user info
+            document.getElementById('userInfo').textContent = `${currentUser.name} (${getRoleLabel(currentUser.role)})`;
+            
+            // Show admin link if user is admin
+            if (currentUser.role === 'ADMIN') {
+                document.getElementById('adminLink').classList.remove('hidden');
+                // Load users if admin
+                loadUsers();
+            } else {
+                document.getElementById('adminLink').classList.add('hidden');
+            }
+            
+            showPage('dashboard');
+        }
+
+        // Login handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('loginError');
+            
+            loginBtn.textContent = 'Connexion...';
+            loginBtn.disabled = true;
+            errorDiv.classList.add('hidden');
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    currentUser = userData;
+                    showMainApp();
+                } else {
+                    const error = await response.json();
+                    errorDiv.textContent = error.error || 'Connexion échouée';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Erreur de connexion';
+                errorDiv.classList.remove('hidden');
+            } finally {
+                loginBtn.textContent = 'Se Connecter';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Show page
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('[id$="Page"]').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected page
+            const targetPage = document.getElementById(page + 'Page');
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-green-600', 'border-b-2', 'border-green-600');
+                link.classList.add('text-gray-600', 'hover:text-green-600');
+            });
+            
+            // Highlight active nav link
+            const activeLink = document.querySelector(`[onclick="showPage('${page}')"]`);
+            if (activeLink) {
+                activeLink.classList.remove('text-gray-600', 'hover:text-green-600');
+                activeLink.classList.add('text-green-600', 'border-b-2', 'border-green-600');
+            }
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                if (response.ok) {
+                    users = await response.json();
+                    renderUsers();
+                    document.getElementById('userCount').textContent = users.length;
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        // Render users
+        function renderUsers() {
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = users.map(user => `
+                <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 mb-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <span class="font-semibold text-green-800">${user.name.charAt(0).toUpperCase()}</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-900">${user.name}</div>
+                            <div class="text-sm text-gray-600">@${user.username}</div>
+                            ${user.department ? `<div class="text-xs text-gray-500">${user.department}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="${getRoleBadgeClass(user.role)}">${getRoleLabel(user.role)}</span>
+                        ${!user.isActive ? '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">Inactif</span>' : ''}
+                        <div class="flex gap-1">
+                            <button onclick="editUser(${user.id})" class="text-blue-600 hover:text-blue-800 px-2 py-1 text-sm">✏️</button>
+                            ${user.role !== 'ADMIN' ? `<button onclick="deleteUser(${user.id})" class="text-red-600 hover:text-red-800 px-2 py-1 text-sm">🗑️</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Create user form submission
+        document.getElementById('userForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('newUsername').value;
+            const name = document.getElementById('newName').value;
+            const password = document.getElementById('newPassword').value;
+            const role = document.getElementById('newRole').value;
+            const department = document.getElementById('newDepartment').value;
+            const editingId = this.dataset.editingId;
+            
+            if (!username || !name || !role) {
+                alert('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            if (!editingId && !password) {
+                alert('Le mot de passe est obligatoire pour un nouveau compte');
+                return;
+            }
+            
+            const userData = {
+                username,
+                name,
+                role,
+                department,
+                isActive: true
+            };
+            
+            // Only include password if provided
+            if (password) {
+                userData.password = password;
+            }
+            
+            try {
+                let response;
+                if (editingId) {
+                    // Update existing user
+                    response = await fetch(`/api/users/${editingId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userData)
+                    });
+                } else {
+                    // Create new user
+                    response = await fetch('/api/users', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userData)
+                    });
+                }
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    
+                    if (editingId) {
+                        // Update user in local array
+                        const index = users.findIndex(u => u.id == editingId);
+                        if (index !== -1) {
+                            users[index] = user;
+                        }
+                        alert('Utilisateur modifié avec succès');
+                    } else {
+                        // Add new user to local array
+                        users.push(user);
+                        alert('Utilisateur créé avec succès');
+                    }
+                    
+                    renderUsers();
+                    hideCreateForm();
+                    resetForm();
+                } else {
+                    alert('Erreur lors de l\'opération');
+                }
+            } catch (error) {
+                alert('Erreur lors de l\'opération');
+            }
+        });
+
+        // Helper functions
+        function getRoleLabel(role) {
+            const labels = {
+                'ADMIN': 'Administrateur',
+                'SUPERVISEUR': 'Superviseur Mine',
+                'CHEF_MAINTENANCE': 'Chef Maintenance',
+                'AGENT_SECURITE': 'Agent Sécurité',
+                'OPERATEUR': 'Opérateur Production'
+            };
+            return labels[role] || role;
+        }
+
+        function getRoleBadgeClass(role) {
+            const classes = {
+                'ADMIN': 'bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium',
+                'SUPERVISEUR': 'bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium',
+                'CHEF_MAINTENANCE': 'bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-medium',
+                'AGENT_SECURITE': 'bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-medium',
+                'OPERATEUR': 'bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium'
+            };
+            return classes[role] || 'bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium';
+        }
+
+        function showCreateForm() {
+            document.getElementById('createUserForm').classList.remove('hidden');
+        }
+
+        function hideCreateForm() {
+            document.getElementById('createUserForm').classList.add('hidden');
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById('userForm').reset();
+            document.getElementById('newUsername').disabled = false;
+            document.querySelector('#createUserForm h3').textContent = 'Créer un Nouvel Utilisateur';
+            document.querySelector('#userForm button[type="submit"]').textContent = 'Créer';
+            delete document.getElementById('userForm').dataset.editingId;
+        }
+
+        function editUser(id) {
+            const user = users.find(u => u.id === id);
+            if (!user) return;
+            
+            // Fill form with user data
+            document.getElementById('newUsername').value = user.username;
+            document.getElementById('newName').value = user.name;
+            document.getElementById('newPassword').value = '';
+            document.getElementById('newRole').value = user.role;
+            document.getElementById('newDepartment').value = user.department || '';
+            
+            // Disable username field for editing
+            document.getElementById('newUsername').disabled = true;
+            
+            // Change form title and button
+            document.querySelector('#createUserForm h3').textContent = 'Modifier l\'Utilisateur';
+            document.querySelector('#userForm button[type="submit"]').textContent = 'Modifier';
+            
+            // Store editing user ID
+            document.getElementById('userForm').dataset.editingId = id;
+            
+            showCreateForm();
+        }
+
+        async function deleteUser(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+                try {
+                    const response = await fetch(`/api/users/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        users = users.filter(u => u.id !== id);
+                        renderUsers();
+                        alert('Utilisateur supprimé avec succès');
+                    } else {
+                        alert('Erreur lors de la suppression');
+                    }
+                } catch (error) {
+                    alert('Erreur lors de la suppression');
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            currentUser = null;
+            showLoginPage();
+        }
+
+        // Initialize app
+        checkAuth();
+    </script>
+
+    <style>
+        .nav-link {
+            @apply px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-green-600 transition-colors;
+        }
+        .nav-link.active {
+            @apply text-green-600 border-b-2 border-green-600;
+        }
+    </style>
+</body>
+</html>
